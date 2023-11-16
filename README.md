@@ -24,6 +24,7 @@ send_message_to_clients function
   for each client, send the message
   
 ________________________________________________________________________________
+  
 CLIENT SIDE:
 Create and configure the ui
 Disable messaging entry and button
