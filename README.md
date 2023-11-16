@@ -1,6 +1,6 @@
 # Messaging-Application
 Messaging application using sockets, tkinter, and threading
-
+<pre>
 SERVER SIDE:
 Added start_server() to store how to start server.
 Support ipv4 and tcp client connection
@@ -26,7 +26,7 @@ send_message_to_clients function
 ________________________________________________________________________________
 CLIENT SIDE:
 Create and configure the ui
-disable messaging entry and button
+Disable messaging entry and button
 Enable input for username, collect entry and send to server
 Upon clicking join chat, disable username entry and button
 Connect to server and wait for response
@@ -38,3 +38,4 @@ send_message function:
   Reset the message entry
 
 Messages would be sent by server and displayed on message area
+</pre>
