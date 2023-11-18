@@ -19,6 +19,12 @@ Add an indefinite loop of receiving message:
   Add the username of the sender to the message and the message itself
   Print the message to server call the send_message_to_clients function
 
+Add catching for disconnected users:
+  Catch the error and proceed
+  Identify user details
+  Add message/notification that user has disconnected
+  Delete user details
+
 send_message_to_clients function
   loop through the saved clients
   for each client, send the message
