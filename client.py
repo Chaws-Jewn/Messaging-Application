@@ -38,10 +38,14 @@ def create_username():
     join_chat.config(state= "disabled")
     connect_to_server(username_entry.get())
 
+def create_username_key(event):
+    create_username()
+
 # Error on getting username, allow resubmission of username
 def enter_new_username():
     username_entry.config(state= tk.NORMAL)
     username_entry.delete(0, len(username_entry.get()))
+    username_entry.focus_set()
     join_chat.config(state= tk.NORMAL)
 
 # Server connection
@@ -98,5 +102,8 @@ message_entry = tk.Entry(state= tk.DISABLED, justify= "right", font= MSG_FONT, w
 message_entry.grid(row=3, column=0, columnspan= 2, pady= (10,0))
 send_message_btn = tk.Button(state=tk.DISABLED, text= "Send", font= ("Arial", 15), command= send_message, foreground= "white", background= OCEAN, border= 5)
 send_message_btn.grid(row= 3, column= 2, pady= (10, 0), padx= (0, 15))
+
+username_entry.focus_set()
+root.bind("<Return>", func= create_username_key)
 
 root.mainloop()
