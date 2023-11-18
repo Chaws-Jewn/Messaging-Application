@@ -36,8 +36,9 @@ def accept_client(server):
         # Collect user information
         if stop:
             clients.append([username, client_socket])
-            send_message_to_clients(f"{clients[len(clients)-1][0]} connected to the server")
-            print(f"Client {clients[len(clients)-1][0]} connected successfully at {client_addr[0]}:{client_addr[1]}")
+            send_message_to_clients(f"{clients[len(clients)-1][0]} joined the chat")
+            print(f"Client [{clients[len(clients)-1][0]}] connected successfully at {client_addr[0]}:{client_addr[1]}")
+            print(f"Active Clients: {len(clients)}")
             threading.Thread(target=receive_message, args=(client_socket, )).start()
             break
             
@@ -46,18 +47,33 @@ def accept_client(server):
             client_socket.close()
 
 def receive_message(client):
-    while True:
-        # Find the username of the client (sender)
-        user = ""
-        for i in range(len(clients)):
-            if clients[i][1] == client:
-                user = clients[i][0]
-                break
-        message = f"[{user}]: {client.recv(1024).decode("utf-8")}"
+    try:
+        while True:
+            # Find the username of the client (sender)
+            user = ""
+            for i in range(len(clients)):
+                if clients[i][1] == client:
+                    user = clients[i][0]
+                    break
+            message = f"[{user}]: {client.recv(1024).decode("utf-8")}"
 
-        # Send message to clients if a message is received
-        send_message_to_clients(message)
-        print(message)
+            # Send message to clients if a message is received
+            send_message_to_clients(message)
+
+    except Exception as e:
+        # if program is killed by host, remove user data and close connection
+        username = ""
+        if str(e) == "[WinError 10054] An existing connection was forcibly closed by the remote host":
+            for i in range(len(clients)):
+                if clients[i][1] == client:
+                    username = clients[i][0]
+                    print(f"Client [{username}] disconnected from the server")
+                    clients.pop(i)
+                    break
+            client.close()
+            message = f"{username} left the chat"
+            send_message_to_clients(message)
+            print(f"Active Clients: {len(clients)}")
 
 def send_message_to_clients(message):
     # Send message to all clients
